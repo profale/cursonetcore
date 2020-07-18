@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Projeto.Application\Projeto.Application.csproj" />
+    <ProjectReference Include="..\Projeto.Domain\Projeto.Domain.csproj" />
+    <ProjectReference Include="..\Projeto.Infra.Caching\Projeto.Infra.Caching.csproj" />
+    <ProjectReference Include="..\Projeto.Infra.Cryptograph\Projeto.Infra.Cryptograph.csproj" />
+    <ProjectReference Include="..\Projeto.Infra.Data\Projeto.Infra.Data.csproj" />
+  </ItemGroup>
+
+</Project>

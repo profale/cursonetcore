@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using Projeto.Application.Commands.Usuarios;
 using Projeto.Application.Interfaces;
 using Projeto.CrossCutting.Security.Services;
@@ -15,22 +16,25 @@ namespace Projeto.Application.Services
     {
         private readonly IUsuarioDomainService _usuarioDomainService;
         private readonly TokenService _tokenService;
-        public UsuarioApplicationService(IUsuarioDomainService usuarioDomainService, TokenService tokenService)
+        private readonly IMapper _mapper;
+        public UsuarioApplicationService(IUsuarioDomainService usuarioDomainService, TokenService tokenService, IMapper mapper)
         {
             _usuarioDomainService = usuarioDomainService;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
 
         public void Add(CreateUsuarioCommand command)
         {
-            var usuario = new Usuario
-            {
-                Id = Guid.NewGuid(),
-                Nome = command.Nome,
-                Email = command.Email,
-                Senha = command.Senha,
-                DataCriacao = DateTime.Now
-            };
+            //var usuario = new Usuario
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Nome = command.Nome,
+            //    Email = command.Email,
+            //    Senha = command.Senha,
+            //    DataCriacao = DateTime.Now
+            //};
+            var usuario = _mapper.Map<Usuario>(command);
 
             var validation = new UsuarioValidation().Validate(usuario);
             if (!validation.IsValid)

@@ -46,6 +46,12 @@ namespace Projeto.Services.Api
             //Setup para MediatR
             MediatRSetup.AddMediatRSetup(services);
 
+            //Setup para AutoMapper
+            AutoMapperSetup.AddAutoMapperSetup(services);
+
+            //Setup para o CORS
+            CorsSetup.AddCorsSetup(services);
+
 
         }
 
@@ -59,6 +65,9 @@ namespace Projeto.Services.Api
 
             app.UseRouting();
 
+            //Setup para configuração do CORS
+            CorsSetup.UseCorsSetup(app);
+
             JwtBearerSetup.UseJwtBearerSetup(app);
 
             app.UseEndpoints(endpoints =>
@@ -68,7 +77,7 @@ namespace Projeto.Services.Api
 
             //Setup para configuração do Swagger
             SwaggerSetup.UseSwaggerSetup(app);
-                        
+            
         }
     }
 }

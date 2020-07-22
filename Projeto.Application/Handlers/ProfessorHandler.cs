@@ -1,7 +1,9 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Projeto.Application.Notifications;
 using Projeto.Domain.DTOs;
 using Projeto.Domain.Interfaces.Caching;
+using Projeto.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,11 +17,13 @@ namespace Projeto.Application.Handlers
     {
         //atributo
         private readonly IProfessorCaching _professorCaching;
+        private readonly IMapper _mapper;
 
         //construtor para injecao de dependencia
-        public ProfessorHandler(IProfessorCaching professorCaching)
+        public ProfessorHandler(IProfessorCaching professorCaching, IMapper mapper)
         {
             _professorCaching = professorCaching;
+            _mapper = mapper;
         }
 
         //orquestra quando fará o CUD no cache
@@ -27,12 +31,13 @@ namespace Projeto.Application.Handlers
         {
             return Task.Run(() =>
             {
-                var professorDTO = new ProfessorDTO
-                {
-                    Id = notification.Professor.Id,
-                    Nome = notification.Professor.Nome,
-                    Email = notification.Professor.Email
-                };
+                //var professorDTO = new ProfessorDTO
+                //{
+                //    Id = notification.Professor.Id,
+                //    Nome = notification.Professor.Nome,
+                //    Email = notification.Professor.Email
+                //};
+                var professorDTO = _mapper.Map<ProfessorDTO>(notification.Professor);
 
                 //executar a açao
                 switch (notification.Action)

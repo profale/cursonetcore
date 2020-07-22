@@ -3,14 +3,15 @@ using Projeto.Domain.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Projeto.Application.Interfaces
 {
     public interface IAlunoApplicationService
     {
-        void Add(CreateAlunoCommand command);
-        void Update(UpdateAlunoCommand command);
-        void Remove(DeleteAlunoCommand command);
+        Task Add(CreateAlunoCommand command);
+        Task Update(UpdateAlunoCommand command);
+        Task Remove(DeleteAlunoCommand command);
 
         //Queries
         List<AlunoDTO> GetAll();

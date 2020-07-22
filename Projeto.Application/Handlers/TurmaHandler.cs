@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Projeto.Application.Notifications;
 using Projeto.Domain.DTOs;
 using Projeto.Domain.Interfaces.Caching;
@@ -15,9 +16,11 @@ namespace Projeto.Application.Handlers
     {
         //atributo
         private readonly ITurmaCaching _turmaCaching;
-        public TurmaHandler(ITurmaCaching turmaCaching)
+        private readonly IMapper _mapper;
+        public TurmaHandler(ITurmaCaching turmaCaching, IMapper mapper)
         {
             _turmaCaching = turmaCaching;
+            _mapper = mapper;
         }
 
         public Task Handle(TurmaNotification notification, CancellationToken cancellationToken)
@@ -25,13 +28,14 @@ namespace Projeto.Application.Handlers
             //executando a thread
             return Task.Run(() =>
             {
-                var turmaDTO = new TurmaDTO
-                {
-                    Id = notification.Turma.Id,
-                    DataIniciio = notification.Turma.DataIniciio,
-                    Descricao = notification.Turma.Descricao
-                    //TODO => Gravar os vinculos de Professor e Aluno
-                };
+                //var turmaDTO = new TurmaDTO
+                //{
+                //    Id = notification.Turma.Id,
+                //    DataIniciio = notification.Turma.DataIniciio,
+                //    Descricao = notification.Turma.Descricao
+                //    //TODO => Gravar os vinculos de Professor e Aluno
+                //};
+                var turmaDTO = _mapper.Map<TurmaDTO>(notification.Turma);
 
                 //executar a acao
                 switch (notification.Action)

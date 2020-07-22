@@ -27,12 +27,12 @@ namespace Projeto.Services.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CreateAlunoCommand command)
+        public async Task<IActionResult> Post(CreateAlunoCommand command)
         {
 
             try
             {
-                _alunoApplicationService.Add(command);
+                await _alunoApplicationService.Add(command);
                 return Ok(new { Message = "Aluno Cadastrado com sucesso." });
             }
             catch (ValidationException e)
@@ -46,11 +46,11 @@ namespace Projeto.Services.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(UpdateAlunoCommand command)
+        public async Task<IActionResult> Put(UpdateAlunoCommand command)
         {
             try
             {
-                _alunoApplicationService.Update(command);
+                await _alunoApplicationService.Update(command);
                 return Ok(new { Message = "Aluno Atualizado com sucesso." });
             }
             catch (ValidationException e)
@@ -65,10 +65,10 @@ namespace Projeto.Services.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             var command = new DeleteAlunoCommand { Id = id };
-            _alunoApplicationService.Remove(command);
+            await _alunoApplicationService.Remove(command);
             return Ok(new { Message = "Aluno excluído com sucesso." });
         }
 

@@ -27,11 +27,11 @@ namespace Projeto.Services.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CreateProfessorCommand command)
+        public async Task<IActionResult> Post(CreateProfessorCommand command)
         {
             try
             {
-                _professorApplicationService.Add(command);
+                await _professorApplicationService.Add(command);
                 return Ok(new { Message = "Professor Cadastrado com sucesso." });
             }
             catch (ValidationException e)
@@ -45,11 +45,11 @@ namespace Projeto.Services.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(UpdateProfessorCommand command)
+        public async Task<IActionResult> Put(UpdateProfessorCommand command)
         {
             try
             {
-                _professorApplicationService.Update(command);
+                await _professorApplicationService.Update(command);
                 return Ok(new { Message = "Professor Atualizado com sucesso." });
             }
             catch (ValidationException e)
@@ -63,12 +63,12 @@ namespace Projeto.Services.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             try
             {
                 var command = new DeleteProfessorCommand { Id = id };
-                _professorApplicationService.Remove(command);
+                await _professorApplicationService.Remove(command);
 
                 return Ok(new { Message = "Professor Excluído com sucesso." });
             }

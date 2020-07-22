@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using AutoMapper;
+using FluentValidation;
 using MediatR;
 using Projeto.Application.Commands.Professores;
 using Projeto.Application.Notifications;
@@ -22,22 +23,26 @@ namespace Projeto.Application.RequestHandlers
         //atributo
         private readonly IMediator _mediator; //cache
         private readonly IProfessorDomainService _professorDomainService; //relacional
-        
+        private readonly IMapper _mapper;
 
-        public ProfessorRequestHandler(IMediator mediator, IProfessorDomainService professorDomainService)
+
+        public ProfessorRequestHandler(IMediator mediator, IProfessorDomainService professorDomainService, IMapper mapper)
         {
             _mediator = mediator;
             _professorDomainService = professorDomainService;
+            _mapper = mapper;
         }
 
-        public Task<Unit> Handle(CreateProfessorCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateProfessorCommand command, CancellationToken cancellationToken)
         {
-            var professor = new Professor
-            {
-                Id = Guid.NewGuid(),
-                Nome = request.Nome,
-                Email = request.Email
-            };
+            //var professor = new Professor
+            //{
+            //    Id = Guid.NewGuid(),
+            //    Nome = request.Nome,
+            //    Email = request.Email
+            //};
+
+            var professor = _mapper.Map<Professor>(command);
 
             //validando o professor
             var validation = new ProfessorValidation().Validate(professor);
@@ -46,23 +51,25 @@ namespace Projeto.Application.RequestHandlers
                         
             _professorDomainService.Add(professor);
 
-            _mediator.Publish(new ProfessorNotification 
+            await _mediator.Publish(new ProfessorNotification 
             {
                 Professor = professor,
                 Action = ActionNotification.Criar
             });
 
-            return Task.FromResult(new Unit());
+            return Unit.Value;
         }
 
-        public Task<Unit> Handle(UpdateProfessorCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateProfessorCommand command, CancellationToken cancellationToken)
         {
-            var professor = new Professor
-            {
-                Id = Guid.Parse(request.Id),
-                Nome = request.Nome,
-                Email = request.Email
-            };
+            //var professor = new Professor
+            //{
+            //    Id = Guid.Parse(request.Id),
+            //    Nome = request.Nome,
+            //    Email = request.Email
+            //};
+
+            var professor = _mapper.Map<Professor>(command);
 
             //validando o professor
             var validation = new ProfessorValidation().Validate(professor);
@@ -71,31 +78,32 @@ namespace Projeto.Application.RequestHandlers
 
             _professorDomainService.Update(professor);
 
-            _mediator.Publish(new ProfessorNotification
+           await _mediator.Publish(new ProfessorNotification
             {
                 Professor = professor,
                 Action = ActionNotification.Atualizar
             });
 
-            return Task.FromResult(new Unit());
+            return Unit.Value;
         }
 
-        public Task<Unit> Handle(DeleteProfessorCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteProfessorCommand command, CancellationToken cancellationToken)
         {
-            var professor = new Professor
-            {
-                Id = Guid.Parse(request.Id)
-            };
+            //var professor = new Professor
+            //{
+            //    Id = Guid.Parse(request.Id)
+            //};
+            var professor = _mapper.Map<Professor>(command);
 
             _professorDomainService.Remove(professor);
 
-            _mediator.Publish(new ProfessorNotification
+            await _mediator.Publish(new ProfessorNotification
             {
                 Professor = professor,
                 Action = ActionNotification.Excluir
             });
 
-            return Task.FromResult(new Unit());
+            return Unit.Value;
         }
 
         public void Dispose()

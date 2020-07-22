@@ -10,6 +10,7 @@ using Projeto.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Projeto.Application.Services
 {
@@ -24,19 +25,19 @@ namespace Projeto.Application.Services
             _professorCaching = professorCaching;
         }
 
-        public void Add(CreateProfessorCommand command)
+        public async Task Add(CreateProfessorCommand command)
         {
-            _mediator.Send(command);
+            await _mediator.Send(command);
         }
 
-        public void Update(UpdateProfessorCommand command)
+        public async Task Update(UpdateProfessorCommand command)
         {
-            _mediator.Send(command);
+            await _mediator.Send(command);
         }
 
-        public void Remove(DeleteProfessorCommand command)
+        public async Task Remove(DeleteProfessorCommand command)
         {
-            _mediator.Send(command);
+           await _mediator.Send(command);
         }
 
         public List<ProfessorDTO> GetAll()

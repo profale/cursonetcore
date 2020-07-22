@@ -26,11 +26,11 @@ namespace Projeto.Services.Api.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CreateTurmaCommand command)
+        public async Task<IActionResult> Post(CreateTurmaCommand command)
         {
             try
             {
-                _turmaApplicationService.Add(command);
+                await _turmaApplicationService.Add(command);
                 return Ok(new { Message = "Turma Cadastrada com sucesso." });
             }
             catch (ValidationException e)
@@ -44,11 +44,11 @@ namespace Projeto.Services.Api.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(UpdateTurmaCommand command)
+        public async Task<IActionResult> Put(UpdateTurmaCommand command)
         {
             try
             {
-                _turmaApplicationService.Update(command);
+                await _turmaApplicationService.Update(command);
                 return Ok(new { Message = "Turma Atualizada com sucesso." });
             }
             catch (ValidationException e)
@@ -62,12 +62,12 @@ namespace Projeto.Services.Api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
             try
             {
                 var command = new DeleteTurmaCommand { Id = id};
-                _turmaApplicationService.Remove(command);
+                await _turmaApplicationService.Remove(command);
 
                 return Ok(new { Message = "Turma Excluída com sucesso." });
             }

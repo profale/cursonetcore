@@ -10,6 +10,7 @@ using Projeto.Domain.Validations;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Projeto.Application.Services
 {
@@ -24,19 +25,19 @@ namespace Projeto.Application.Services
             _turmaCaching = turmaCaching;
         }
 
-        public void Add(CreateTurmaCommand command)
+        public async Task Add(CreateTurmaCommand command)
         {
-            _mediator.Send(command);
+            await _mediator.Send(command);
         }
 
-        public void Update(UpdateTurmaCommand command)
+        public async Task Update(UpdateTurmaCommand command)
         {
-            _mediator.Send(command);
+            await _mediator.Send(command);
         }
 
-        public void Remove(DeleteTurmaCommand command)
+        public async Task Remove(DeleteTurmaCommand command)
         {
-            _mediator.Send(command);
+            await _mediator.Send(command);
         }
 
         public List<TurmaDTO> GetAll()

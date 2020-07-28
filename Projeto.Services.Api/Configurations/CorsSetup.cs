@@ -16,9 +16,9 @@ namespace Projeto.Services.Api.Configurations
                 s => s.AddPolicy("DefaultPolicy",
                 builder =>
                 {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
+                    builder.AllowAnyOrigin() //qualquer projeto (host)
+                           .AllowAnyMethod() //qualquer método (post, put, get, delete...)
+                           .AllowAnyHeader(); //enviar informações de cabeçalho
                 }));
         }
 
